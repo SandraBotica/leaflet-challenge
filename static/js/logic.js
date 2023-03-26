@@ -92,36 +92,39 @@ d3.json(link).then(function (response) {
             // Depth: ${location.geometry.coordinates[2]}`).addTo(myMap)
             };
 
-//  // Set up the legend.
-//  let legend = L.control({ position: "bottomright" });
-//  legend.onAdd = function(myMap) {
+ // Set up the legend.
+ let legend = L.control({ position: "bottomright" });
+ legend.onAdd = function(myMap) {
 //    let div = L.DomUtil.create("div", "info legend");
-//    let limits = geojson.options.limits;
-//    let colors = geojson.options.colors;
+//    let limits = features.options.limits;
+//    let colors = features.options.colors;
 //    let labels = [];
-// //    let limits = features.location.geometry.coordinates[2].options.limits;
-// //    let color = color;
-// //    let labels = ["-10-10", "10-30","30-50","50-70","70-90","90+"];
+   let limits = features.location.geometry.coordinates[2].options.limits;
+   let colors = features.location.geometry.coordinates[2].options.colors;
+   let labels = [];
+//    let limits = features.location.geometry.coordinates[2].options.limits;
+//    let color = color;
+//    let labels = ["-10-10", "10-30","30-50","50-70","70-90","90+"];
 
-//    // Add the minimum and maximum.
-//    let legendInfo = "<h1>Depth of the earthquake</h1>" +
-//      "<div class=\"labels\">" +
-//        "<div class=\"min\">" + limits[0] + "</div>" +
-//        "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
-//      "</div>";
+   // Add the minimum and maximum.
+   let legendInfo = "<h1>Depth of the earthquake</h1>" +
+     "<div class=\"labels\">" +
+       "<div class=\"min\">" + limits[0] + "</div>" +
+       "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
+     "</div>";
 
-//    div.innerHTML = legendInfo;
+   div.innerHTML = legendInfo;
 
-//    limits.forEach(function(limits, index) {
-//      labels.push("<li style=\"background-color: " + color[index] + "\"></li>");
-//    });
+   limits.forEach(function(limits, index) {
+     labels.push("<li style=\"background-color: " + color[index] + "\"></li>");
+   });
 
-//    div.innerHTML += "<ul>" + labels.join("") + "</ul>";
-//    return div;
-//  };
+   div.innerHTML += "<ul>" + labels.join("") + "</ul>";
+   return div;
+ };
 
-//  // Adding the legend to the map
-//  legend.addTo(myMap);
+ // Adding the legend to the map
+ legend.addTo(myMap);
 
 });
        
