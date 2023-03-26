@@ -9,17 +9,36 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(myMap);
 
-// // Use this link to get the GeoJSON data, all earthquakes past 7 days
-// let link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+// // Use this link to get the GeoJSON data, significant earthquakes past 7 days
+// let link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.geojson";
+
+// Use this link to get the GeoJSON data, all earthquakes past 7 days
+let link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 
 // // Use this link to get the GeoJSON data, M1.0+ earthquakes past 7 days
 // let link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_week.geojson";
 
-// Use this link to get the GeoJSON data, M2.5+ earthquakes past 7 days
-let link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson";
+// // Use this link to get the GeoJSON data, M2.5+ earthquakes past 7 days
+// let link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson";
 
 // // Use this link to get the GeoJSON data, M4.5+ earthquakes past 7 days
 // let link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson";
+
+
+// // Use this link to get the GeoJSON data, significant earthquakes past 30 days
+// let link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
+
+// // Use this link to get the GeoJSON data, all earthquakes past 30 days
+// let link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
+
+// // Use this link to get the GeoJSON data, M1.0+ earthquakes past 30 days
+// let link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_month.geojson";
+
+// // Use this link to get the GeoJSON data, M2.5+ earthquakes past 30 days
+// let link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson";
+
+// // Use this link to get the GeoJSON data, M4.5+ earthquakes past 30 days
+// let link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.geojson";
 
 // // Define a markerSize() function that will give each location a different radius based on the earthquakes magnitude.
 function markerSize(mag) {
@@ -68,15 +87,21 @@ d3.json(link).then(function (response) {
                 }).bindPopup(`<h1>Location: ${location.properties.place}</h1><hr>
                 <h2>Magnitude: ${location.properties.mag}</hr2>
                 <h3>Depth: ${location.geometry.coordinates[2]}</h3>`).addTo(myMap)
+            // }).bindPopup(`<h1>Location: ${location.properties.place}</h1><hr>
+            // <br /><br />Magnitude: ${location.properties.mag}<br /><br />
+            // Depth: ${location.geometry.coordinates[2]}`).addTo(myMap)
             };
 
 //  // Set up the legend.
-//  let legend = L.control({ position: "topright" });
-//  legend.onAdd = function() {
+//  let legend = L.control({ position: "bottomright" });
+//  legend.onAdd = function(myMap) {
 //    let div = L.DomUtil.create("div", "info legend");
 //    let limits = geojson.options.limits;
-//    let color = geojson.options.color;
+//    let colors = geojson.options.colors;
 //    let labels = [];
+// //    let limits = features.location.geometry.coordinates[2].options.limits;
+// //    let color = color;
+// //    let labels = ["-10-10", "10-30","30-50","50-70","70-90","90+"];
 
 //    // Add the minimum and maximum.
 //    let legendInfo = "<h1>Depth of the earthquake</h1>" +
