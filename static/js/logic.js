@@ -6,127 +6,83 @@ let myMap = L.map("map", {
 
 // Adding the tile layer
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(myMap);
-
-// // Use this link to get the GeoJSON data, significant earthquakes past 7 days
-// let link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.geojson";
 
 // Use this link to get the GeoJSON data, all earthquakes past 7 days
 let link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 
-// // Use this link to get the GeoJSON data, M1.0+ earthquakes past 7 days
-// let link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_week.geojson";
-
-// // Use this link to get the GeoJSON data, M2.5+ earthquakes past 7 days
-// let link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson";
-
-// // Use this link to get the GeoJSON data, M4.5+ earthquakes past 7 days
-// let link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson";
-
-
-// // Use this link to get the GeoJSON data, significant earthquakes past 30 days
-// let link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson";
-
-// // Use this link to get the GeoJSON data, all earthquakes past 30 days
-// let link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
-
-// // Use this link to get the GeoJSON data, M1.0+ earthquakes past 30 days
-// let link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_month.geojson";
-
-// // Use this link to get the GeoJSON data, M2.5+ earthquakes past 30 days
-// let link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_month.geojson";
-
-// // Use this link to get the GeoJSON data, M4.5+ earthquakes past 30 days
-// let link = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.geojson";
-
 // // Define a markerSize() function that will give each location a different radius based on the earthquakes magnitude.
 function markerSize(mag) {
-    return Math.sqrt(mag) * 10;
-  }
-
+  return Math.sqrt(mag) * 10;
+}
 
 // Perform a GET request to the link (URL)
 d3.json(link).then(function (response) {
-    // Once we get a response, send the response.features object to features.
-    features= response.features;
-    // Loop through the features array
-    for (let i = 0; i < features.length; i++) {
-        // Conditionals for depth of earhquake that will determine color of marker, darker=greater depth.
-        let color = "";
-        if (features[i].geometry.coordinates[2] > 90) {
-        color = "rgb(21, 80, 132)";
-        }
-        else if (features[i].geometry.coordinates[2] > 70) {
-        color = "rgb(120, 80, 132)";
-        }
-        else if (features[i].geometry.coordinates[2] > 50) {
-        color = "rgb(193, 80, 0)";
-        }
-        else if (features[i].geometry.coordinates[2] > 30) {
-        color = "rgb(255, 80, 0)";
-        }
-        else if (features[i].geometry.coordinates[2] > 10) {
-        color = "rgb(255, 129, 0)";
-        }
-        else {
-        color = "rgb(250, 195, 107)";}
-        
-        let location = features[i];
-        if(location)
-            // Create one marker on the map for each features (earhquake) location.
-            L.circleMarker([location.geometry.coordinates[1], location.geometry.coordinates[0]],
-                {fillOpacity: 0.75,
-                    color: "black",
-                    fillColor: color,
-                    // Setting our circle's radius to equal the output of our markerSize() function:
-                    // This will make our marker's size proportionate to the earthquake magnitude.
-                    // Bigger radius for greater magnitude.
-                    radius: markerSize(location.properties.mag)
-                // Giving each feature a popup with information that's relevant to it
-                }).bindPopup(`<h1>Location: ${location.properties.place}</h1><hr>
-                <h2>Magnitude: ${location.properties.mag}</hr2>
-                <h3>Depth: ${location.geometry.coordinates[2]}</h3>`).addTo(myMap)
-            // }).bindPopup(`<h1>Location: ${location.properties.place}</h1><hr>
-            // <br /><br />Magnitude: ${location.properties.mag}<br /><br />
-            // Depth: ${location.geometry.coordinates[2]}`).addTo(myMap)
-            };
+  // Once we get a response, send the response.features object to features.
+  features = response.features;
+  // Loop through the features array
+  for (let i = 0; i < features.length; i++) {
+    // Conditionals for depth of earhquake that will determine color of marker, darker=greater depth.
+    let color = "";
+    if (features[i].geometry.coordinates[2] > 90) {
+      color = "#155084";
+    }
+    else if (features[i].geometry.coordinates[2] > 70) {
+      color = "#785084";
+    }
+    else if (features[i].geometry.coordinates[2] > 50) {
+      color = "#C15000";
+    }
+    else if (features[i].geometry.coordinates[2] > 30) {
+      color = "#FF5000";
+    }
+    else if (features[i].geometry.coordinates[2] > 10) {
+      color = "#FF8100";
+    }
+    else {
+      color = "#FAC36B";
+    }
 
- // Set up the legend.
- let legend = L.control({ position: "bottomright" });
- legend.onAdd = function(myMap) {
-//    let div = L.DomUtil.create("div", "info legend");
-//    let limits = features.options.limits;
-//    let colors = features.options.colors;
-//    let labels = [];
-   let limits = features.location.geometry.coordinates[2].options.limits;
-   let colors = features.location.geometry.coordinates[2].options.colors;
-   let labels = [];
-//    let limits = features.location.geometry.coordinates[2].options.limits;
-//    let color = color;
-//    let labels = ["-10-10", "10-30","30-50","50-70","70-90","90+"];
+    let location = features[i];
+    if (location)
+      // Create one marker on the map for each features (earhquake) location.
+      L.circleMarker([location.geometry.coordinates[1], location.geometry.coordinates[0]],
+        {
+          fillOpacity: 0.75,
+          color: "black",
+          fillColor: color,
+          // Setting our circle's radius to equal the output of our markerSize() function:
+          // This will make our marker's size proportionate to the earthquake magnitude.
+          // Bigger radius for greater magnitude.
+          radius: markerSize(location.properties.mag)
+          // Giving each feature a popup with information that's relevant to it
+        })
+        .bindPopup(`<p>Location: ${location.properties.place}</p><hr>
+                <p>Magnitude: ${location.properties.mag}</p>
+                <p>Depth: ${location.geometry.coordinates[2]}</p>`).addTo(myMap)
+  };
+}
+);
 
-   // Add the minimum and maximum.
-   let legendInfo = "<h1>Depth of the earthquake</h1>" +
-     "<div class=\"labels\">" +
-       "<div class=\"min\">" + limits[0] + "</div>" +
-       "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
-     "</div>";
+// Set up the legend.
+let legend = L.control({ position: "bottomleft" });
+legend.onAdd = function (myMap) {
+  let div = L.DomUtil.create("div", "legend");
+  div.innerHTML += "<h4>Depth of Earthquakes</h4>";
+  div.innerHTML += '<i style="background: #FAC36B"></i><span><10</span><br>';
+  div.innerHTML += '<i style="background: #FF8100"></i><span>10-30</span><br>';
+  div.innerHTML += '<i style="background: #FF5000"></i><span>30-50</span><br>';
+  div.innerHTML += '<i style="background: #C15000"></i><span>50-70</span><br>';
+  div.innerHTML += '<i style="background: #785084"></i><span>70-90</span><br>';
+  div.innerHTML += '<i style="background: #155084"></i><span>>90</span><br>';
+  // div.innerHTML += '<i class="icon" style="background-image: url(https://d30y9cdsu7xlg0.cloudfront.net/png/194515-200.png);background-repeat: no-repeat;"></i><span>Grænse</span><br>';
 
-   div.innerHTML = legendInfo;
+  return div;
+};
 
-   limits.forEach(function(limits, index) {
-     labels.push("<li style=\"background-color: " + color[index] + "\"></li>");
-   });
+legend.addTo(myMap);
 
-   div.innerHTML += "<ul>" + labels.join("") + "</ul>";
-   return div;
- };
 
- // Adding the legend to the map
- legend.addTo(myMap);
 
-});
-       
 
-               
