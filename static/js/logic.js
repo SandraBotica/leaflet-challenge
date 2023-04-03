@@ -63,6 +63,9 @@ d3.json(link).then(function (response) {
                 <p>Depth: ${location.geometry.coordinates[2]}</p>`).addTo(myMap)
   };
 }
+).catch(function(error){
+  console.log(error)
+}
 );
 
 // Set up the legend.
